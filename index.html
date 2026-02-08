@@ -4,605 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Axam</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@300;400;500&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --deep-navy: #0a192f;
-            --lavender: #b8a4ff;
-            --soft-purple: #8a79d1;
-            --moon-glow: #f8f3e6;
-            --dawn-pink: #f9d5e5;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--deep-navy);
-            color: white;
-            overflow-x: hidden;
-            min-height: 100vh;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="%23b8a4ff" opacity="0.7"/></svg>') 8 8, auto;
-        }
-
-        /* Sparkle trail */
-        .cursor-sparkle {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: var(--lavender);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        /* Sections */
-        .section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 60px 20px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .section.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Night sky */
-        .night-sky {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .moon {
-            position: fixed;
-            background: var(--moon-glow);
-            border-radius: 50%;
-            box-shadow: 0 0 80px rgba(248, 243, 230, 0.7);
-            z-index: -1;
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            filter: blur(40px);
-        }
-
-        /* Top banner */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            padding: 18px;
-            background: rgba(10, 25, 47, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            font-size: 1.3rem;
-            color: var(--lavender);
-            font-family: 'Dancing Script', cursive;
-            animation: gentleGlow 3s infinite alternate;
-            border-bottom: 1px solid rgba(184, 164, 255, 0.2);
-        }
-
-        @keyframes gentleGlow {
-            0% { text-shadow: 0 0 8px rgba(184, 164, 255, 0.4); }
-            100% { text-shadow: 0 0 18px rgba(184, 164, 255, 0.8), 0 0 25px rgba(184, 164, 255, 0.3); }
-        }
-
-        /* Typography */
-        .main-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(3rem, 8vw, 5rem);
-            margin-bottom: 25px;
-            background: linear-gradient(135deg, var(--lavender) 0%, white 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-align: center;
-            line-height: 1.2;
-            font-weight: 700;
-            text-shadow: 0 0 30px rgba(184, 164, 255, 0.3);
-        }
-
-        .section-heading {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            color: var(--lavender);
-            margin-bottom: 50px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        p {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            line-height: 1.8;
-            max-width: 800px;
-            text-align: center;
-            margin: 15px auto;
-            color: rgba(255, 255, 255, 0.9);
-            padding: 0 20px;
-        }
-
-        .highlight {
-            color: var(--lavender);
-            font-weight: 500;
-            text-shadow: 0 0 15px rgba(184, 164, 255, 0.6);
-            font-size: 1.3em;
-        }
-
-        /* Buttons */
-        .continue-btn {
-            margin-top: 50px;
-            padding: 18px 45px;
-            background: transparent;
-            border: 2px solid var(--lavender);
-            color: var(--lavender);
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .continue-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(184, 164, 255, 0.2), transparent);
-            transition: left 0.7s;
-            z-index: -1;
-        }
-
-        .continue-btn:hover {
-            background: rgba(184, 164, 255, 0.15);
-            box-shadow: 0 0 30px rgba(184, 164, 255, 0.4);
-            transform: translateY(-8px);
-        }
-
-        .continue-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Chat bubbles */
-        .chat-bubble {
-            background: rgba(138, 121, 209, 0.12);
-            border-radius: 25px;
-            padding: 40px;
-            max-width: 850px;
-            margin: 30px auto;
-            border: 1px solid rgba(184, 164, 255, 0.15);
-            backdrop-filter: blur(15px);
-            animation: floatUp 1.2s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chat-bubble::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--lavender), transparent);
-        }
-
-        @keyframes floatUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Promises */
-        .promises-list {
-            max-width: 750px;
-            margin: 50px auto;
-        }
-
-        .star-item {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            padding: 20px;
-            border-radius: 15px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(184, 164, 255, 0.05);
-            border: 1px solid transparent;
-        }
-
-        .star-item:hover {
-            background: rgba(184, 164, 255, 0.12);
-            border-color: rgba(184, 164, 255, 0.3);
-            transform: translateX(15px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .star-icon {
-            color: gold;
-            margin-right: 25px;
-            font-size: 1.8rem;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
-        }
-
-        /* Final proposal */
-        .proposal-text {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin: 60px 0;
-            color: white;
-            text-shadow: 0 0 30px rgba(184, 164, 255, 0.8);
-            animation: heartbeat 2.5s infinite ease-in-out;
-            text-align: center;
-            line-height: 1.3;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            10% { transform: scale(1.05); }
-            20% { transform: scale(1); }
-            30% { transform: scale(1.03); }
-            40% { transform: scale(1); }
-        }
-
-        .button-container {
-            display: flex;
-            gap: 50px;
-            margin: 60px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .proposal-btn {
-            padding: 25px 60px;
-            font-size: 2.2rem;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Dancing Script', cursive;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            min-width: 250px;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .proposal-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            z-index: -1;
-            opacity: 0.8;
-            filter: blur(20px);
-        }
-
-        .always-btn {
-            background: linear-gradient(135deg, var(--soft-purple) 0%, var(--lavender) 100%);
-            color: var(--deep-navy);
-        }
-
-        .forever-btn {
-            background: transparent;
-            color: var(--lavender);
-            border: 3px solid var(--lavender);
-        }
-
-        .proposal-btn:hover {
-            transform: translateY(-15px) scale(1.08);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Music player */
-        .music-player {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(10, 25, 47, 0.7);
-            backdrop-filter: blur(20px);
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 1px solid rgba(184, 164, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .music-btn {
-            background: transparent;
-            border: none;
-            color: var(--lavender);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-btn:hover {
-            background: rgba(184, 164, 255, 0.15);
-            transform: scale(1.1);
-        }
-
-        .song-title {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: fixed;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 999;
-        }
-
-        .scroll-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .scroll-dot.active {
-            background: var(--lavender);
-            box-shadow: 0 0 15px var(--lavender);
-            transform: scale(1.4);
-        }
-
-        .scroll-dot::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 1px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .scroll-dot.active::after {
-            border-color: var(--lavender);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(184, 164, 255, 0.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .section { padding: 40px 15px; }
-            .continue-btn { padding: 15px 35px; font-size: 1.1rem; }
-            .chat-bubble { padding: 25px; margin: 20px; }
-            .button-container { gap: 25px; }
-            .proposal-btn { padding: 20px 40px; font-size: 1.8rem; min-width: 200px; }
-            .music-player { bottom: 20px; right: 20px; padding: 12px 20px; }
-            .scroll-indicator { right: 15px; }
-        }
-
-        @media (max-width: 480px) {
-            .button-container { flex-direction: column; }
-            .music-player { flex-direction: column; right: 10px; padding: 15px; }
-            .song-title { display: none; }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <!-- Top Banner -->
-    <div class="top-banner">For My Axam</div>
-
     <!-- Night Sky -->
-    <div class="night-sky" id="nightSky"></div>
-    <div class="moon" id="moon"></div>
+    <div class="night-sky" id="nightSky">
+        <div class="moon" id="moon"></div>
+        <div class="constellation-heart" id="constellationHeart"></div>
+    </div>
+
+    <!-- Top Banner -->
+    <div class="top-banner" id="topBanner">
+        <span class="glowing-text">For My Axam</span>
+    </div>
 
     <!-- Music Player -->
     <div class="music-player" id="musicPlayer">
-        <button class="music-btn" id="playBtn">
-            <i class="fas fa-play"></i>
+        <button class="music-btn" id="songBtn">
+            <i class="fas fa-music"></i>
+            <span class="btn-text">song</span>
         </button>
-        <button class="music-btn" id="nextBtn">
-            <i class="fas fa-forward"></i>
-        </button>
-        <div class="song-title" id="songTitle">Romantic Piano - Loading...</div>
+        <div class="song-info" id="songInfo">Quiet Nights</div>
     </div>
 
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <!-- Sections -->
-    <section id="opening" class="section active">
-        <h1 class="main-title">Even through screens…<br>you reached my heart.</h1>
-        <p>159 days of choosing each other… and I'm still choosing you.</p>
-        <button class="continue-btn" onclick="nextSection()">
-            <i class="fas fa-arrow-down"></i> Scroll to continue
-        </button>
-    </section>
-
-    <section id="chat" class="section">
-        <h2 class="section-heading">Usss</h2>
-        <div class="chat-bubble">
-            <p>We started with simple messages.</p>
-            <p>Somehow those messages became the best part of my day.</p>
-            <p>Telling each other everything, how our day went, the tiniest details, what made us laugh, what made us tired…</p>
-            <p>it slowly turned into something I couldn't imagine my life without.</p>
-            <p>Talking to you late at night, sharing thoughts we don't tell many people…</p>
-            <p>that's when I realized, you aren't just someone online to me.</p>
-            <p class="highlight">You're my person, <span class="axam-name" onclick="sparkleName()">Axam</span>.</p>
-        </div>
-        <button class="continue-btn" onclick="nextSection()">
-            <i class="fas fa-arrow-down"></i> Continue
-        </button>
-    </section>
-
-    <section id="promises" class="section">
-        <h2 class="section-heading">Promises I'm Already Making in My Heart</h2>
-        <p>I promise to keep choosing you.</p>
-        <p>On easy days. On quiet days. On days when distance feels heavy.</p>
-        <p>I promise to listen, to laugh with you, to grow with you,</p>
-        <p>and to protect what we're building, slowly, honestly, beautifully.</p>
-        <p>I promise to keep dreaming about us,</p>
-        <p>even before the world sees us standing side by side.</p>
-        
-        <div class="promises-list">
-            <div class="star-item">
-                <i class="fas fa-star star-icon"></i>
-                <span>choosing you every single day</span>
+    <main class="sections-container">
+        <!-- SECTION 1: OPENING -->
+        <section id="opening" class="section active" data-bg="deep-night">
+            <div class="moon-backdrop">
+                <div class="moon-glow"></div>
             </div>
-            <div class="star-item">
-                <i class="fas fa-star star-icon"></i>
-                <span>believing in us</span>
-            </div>
-            <div class="star-item">
-                <i class="fas fa-star star-icon"></i>
-                <span>being patient with distance</span>
-            </div>
-            <div class="star-item">
-                <i class="fas fa-star star-icon"></i>
-                <span>building something real</span>
-            </div>
-            <div class="star-item">
-                <i class="fas fa-star star-icon"></i>
-                <span>keeping my heart open, to you</span>
-            </div>
-        </div>
-        <button class="continue-btn" onclick="nextSection()">
-            <i class="fas fa-arrow-down"></i> Continue
-        </button>
-    </section>
-
-    <section id="meeting" class="section">
-        <h2 class="section-heading">When We Finally Meet…</h2>
-        <div class="chat-bubble">
-            <p>It's funny how I can feel so close to you when you're thousands of miles away, <span class="axam-name" onclick="sparkleName()">Axam</span>.</p>
-            <p>After all these days of telling each other everything, our mornings, our tiny moments, our dreams about meeting, I just want the reality of us.</p>
-            <p>I want to reach out my hand and not hit a glass screen, but feel yours.</p>
-            <p>I want to stand in front of you, take a deep breath, and think…</p>
-            <p class="highlight">"Finally. I'm home."</p>
-        </div>
-        <button class="continue-btn" onclick="nextSection()">
-            <i class="fas fa-arrow-down"></i> Continue to the Final Question
-        </button>
-    </section>
-
-    <section id="proposal" class="section">
-        <h2 class="section-heading">Until I can say this in person…</h2>
-        <div class="proposal-text">will you keep being mine? 🌙❤️</div>
-        
-        <div class="button-container">
-            <button class="proposal-btn always-btn" onclick="respond('always')">
-                <i class="fas fa-heart"></i> Always
+            <h1 class="main-title">Even through screens…<br><span class="heart-beat">you reached my heart.</span></h1>
+            <p class="sub-line">159 days of choosing each other…<br>and I'm still choosing you.</p>
+            <button class="scroll-continue-btn" onclick="nextSection()">
+                <span class="btn-icon">👉</span>
+                <span class="btn-text">Scroll to continue</span>
+                <span class="btn-arrow">↓</span>
             </button>
-            <button class="proposal-btn forever-btn" onclick="respond('forever')">
-                <i class="fas fa-moon"></i> Forever
-            </button>
-        </div>
-        
-        <p style="margin-top: 60px; opacity: 0.8; font-size: 1.1rem; font-style: italic;">
-            Still you. Still us. Every universe.
-        </p>
-    </section>
+        </section>
 
-    <div class="footer">
-        Made with 💜 for Axam • 159 days and counting…
-    </div>
+        <!-- SECTION 2: USSS -->
+        <section id="uss" class="section" data-bg="night">
+            <h2 class="section-heading script-font">Usss</h2>
+            <div class="chat-container">
+                <div class="chat-bubble typing-animation">
+                    <div class="message-group">
+                        <p class="message-line">We started with simple messages.</p>
+                        <p class="message-line">Somehow those messages became the best part of my day.</p>
+                    </div>
+                    <div class="message-group fade-in-delay">
+                        <p class="message-line">Telling each other everything, how our day went, the tiniest details, what made us laugh, what made us tired…</p>
+                        <p class="message-line">it slowly turned into something I couldn't imagine my life without.</p>
+                    </div>
+                    <div class="message-group fade-in-delay-2">
+                        <p class="message-line">Talking to you late at night, sharing thoughts we don't tell many people…</p>
+                        <p class="message-line">that's when I realized, you aren't just someone online to me.</p>
+                    </div>
+                    <div class="message-group fade-in-delay-3 highlight-message">
+                        <p class="message-line">You're my person, <span class="axam-name sparkle-trigger">Axam</span>.</p>
+                    </div>
+                    <div class="typing-cursor"></div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Audio Element -->
-    <audio id="backgroundMusic" loop>
-        <!-- Multiple romantic song options - choose one or let it cycle -->
+        <!-- SECTION 3: PROMISES -->
+        <section id="promises" class="section" data-bg="night-purple">
+            <h2 class="section-heading script-font">Promises I'm Already Making in My Heart</h2>
+            <div class="promises-text">
+                <p>I promise to keep choosing you.</p>
+                <p class="promise-line">On easy days.</p>
+                <p class="promise-line">On quiet days.</p>
+                <p class="promise-line">On days when distance feels heavy.</p>
+                <p>I promise to listen, to laugh with you, to grow with you,</p>
+                <p>and to protect what we're building, slowly, honestly, beautifully.</p>
+                <p>I promise to keep dreaming about us,</p>
+                <p>even before the world sees us standing side by side.</p>
+            </div>
+            <div class="star-promises">
+                <div class="star-item"><span class="star-icon">⭐</span><span class="star-text">choosing you every single day</span></div>
+                <div class="star-item"><span class="star-icon">⭐</span><span class="star-text">believing in us</span></div>
+                <div class="star-item"><span class="star-icon">⭐</span><span class="star-text">being patient with distance</span></div>
+                <div class="star-item"><span class="star-icon">⭐</span><span class="star-text">building something real</span></div>
+                <div class="star-item"><span class="star-icon">⭐</span><span class="star-text">keeping my heart open, to you</span></div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: WHEN WE MEET -->
+        <section id="meeting" class="section" data-bg="purple-dawn">
+            <h2 class="section-heading script-font">When We Finally Meet…</h2>
+            <div class="meeting-content">
+                <div class="glow-text">
+                    <p>It's funny how I can feel so close to you when you're thousands of miles away, <span class="axam-name sparkle-trigger">Axam</span>.</p>
+                    <p>After all these days of telling each other everything, our mornings, our tiny moments, our dreams about meeting, I just want the reality of us.</p>
+                    <p>I want to reach out my hand and not hit a glass screen, but feel yours.</p>
+                    <p>I want to stand in front of you, take a deep breath, and think…</p>
+                    <p class="final-thought shimmer">"Finally. I'm home."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FINAL PROPOSAL -->
+        <section id="proposal" class="section" data-bg="deep-purple">
+            <div class="proposal-container">
+                <div class="proposal-text heartbeat-glow">
+                    Until I can say this in person…<br>
+                    <span class="proposal-question">will you keep being mine? <span class="moon-heart">🌙❤️</span></span>
+                </div>
+                
+                <div class="proposal-buttons">
+                    <button class="proposal-btn always-btn" onclick="respond('always')">
+                        <span class="btn-icon">💜</span>
+                        <span class="btn-text">Always</span>
+                    </button>
+                    <button class="proposal-btn forever-btn" onclick="respond('forever')">
+                        <span class="btn-icon">🌙</span>
+                        <span class="btn-text">Forever</span>
+                    </button>
+                </div>
+                
+                <p class="universe-text">Still you. Still us. Every universe.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cursor Sparkles -->
+    <div class="cursor-sparkles"></div>
+
+    <!-- Audio -->
+    <audio id="backgroundMusic" loop preload="metadata">
+        <source src="assets/music/romantic-piano.mp3" type="audio/mpeg">
         <source src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" type="audio/mpeg">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-a-romantic-touch-493.mp3" type="audio/mpeg">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-deep-romance-389.mp3" type="audio/mpeg">
     </audio>
 
-    <script>
-        // Romantic songs playlist
-        const romanticSongs = [
-            {
-                title: "Serene View - Gentle Piano",
-                src: "https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3"
-            },
-            {
-                title: "A Romantic Touch - Soft Melody",
-                src: "https://assets.mixkit.co/music/preview/mixkit-a-romantic-touch-493.mp3"
-            },
-            {
-                title: "Deep Romance - Piano Love",
-                src: "https://assets.mixkit.co/music/preview/mixkit-deep-romance-389.mp3"
-            },
-            {
-                title: "Love Song - Piano & Strings",
-                src: "https://assets.mixkit.co/music/preview/mixkit-love-song-117.mp3"
-            }
-        ];
+    <!-- Easter Egg -->
+    <div class="easter-egg" id="easterEgg">
+        <div class="easter-egg-content">
+            <p class="days-counting">159 days… and counting.</p>
+            <button class="close-egg" onclick="closeEasterEgg()">✨</button>
+        </div>
+    </div>
 
-        // DO
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
