@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Axam</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-navy: #0a192f;
+            --lavender: #b8a4ff;
+            --soft-purple: #8a79d1;
+            --moon-glow: #f8f3e6;
+            --dawn-pink: #f9d5e5;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--deep-navy);
+            color: white;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="%23b8a4ff" opacity="0.7"/></svg>') 8 8, auto;
+            scroll-behavior: smooth;
+        }
+
+        /* Sparkle trail */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: var(--lavender);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 10000;
+        }
+
+        /* Section common styles */
+        section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow: hidden;
+            transition: background 1.5s ease;
+        }
+
+        /* Background elements */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .twinkle {
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .cloud {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(20px);
+        }
+
+        .moon {
+            position: absolute;
+            background-color: var(--moon-glow);
+            border-radius: 50%;
+            filter: blur(0px);
+            box-shadow: 0 0 60px rgba(248, 243, 230, 0.5);
+            z-index: 1;
+        }
+
+        /* Typography */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: 4.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--lavender), white);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(184, 164, 255, 0.3);
+        }
+
+        .section-heading {
+            font-size: 3.5rem;
+            color: var(--lavender);
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto 20px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .highlight {
+            color: var(--lavender);
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(184, 164, 255, 0.5);
+        }
+
+        .tiny-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Top banner */
+        .top-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(10, 25, 47, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            font-size: 1.2rem;
+            color: var(--lavender);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--lavender); }
+            to { text-shadow: 0 0 15px var(--lavender), 0 0 20px rgba(184, 164, 255, 0.5); }
+        }
+
+        /* Opening section */
+        .opening-section {
+            text-align: center;
+        }
+
+        .continue-btn {
+            margin-top: 40px;
+            padding: 12px 30px;
+            background-color: transparent;
+            border: 2px solid var(--lavender);
+            color: var(--lavender);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .continue-btn:hover {
+            background-color: rgba(184, 164, 255, 0.2);
+            box-shadow: 0 0 20px rgba(184, 164, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Chat bubbles section */
+        .chat-bubble {
+            background-color: rgba(138, 121, 209, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 700px;
+            margin: 20px auto;
+            border: 1px solid rgba(184, 164, 255, 0.3);
+            position: relative;
+            backdrop-filter: blur(5px);
+            animation: floatUp 1.5s ease-out;
+        }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--lavender);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Promises section */
+        .promises-list {
+            max-width: 700px;
+            margin: 30px auto;
+            text-align: left;
+        }
+
+        .star-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .star-item:hover {
+            background-color: rgba(184, 164, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .star-icon {
+            color: gold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Final proposal section */
+        .final-section {
+            text-align: center;
+            padding-bottom: 100px;
+        }
+
+        .proposal-text {
+            font-size: 3.5rem;
+            margin: 30px 0;
+            color: white;
+            text-shadow: 0 0 20px rgba(184, 164, 255, 0.7);
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .proposal-btn {
+            padding: 18px 40px;
+            font-size: 1.8rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Dancing Script', cursive;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .always-btn {
+            background: linear-gradient(135deg, var(--soft-purple), var(--lavender));
+            color: var(--deep-navy);
+        }
+
+        .forever-btn {
+            background: transparent;
+            color: var(--lavender);
+            border: 3px solid var(--lavender);
+        }
+
+        .proposal-btn:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .scroll-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background-color: var(--lavender);
+            box-shadow: 0 0 10px var(--lavender);
+            transform: scale(1.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title { font-size: 3rem; }
+            .section-heading { font-size: 2.5rem; }
+            p { font-size: 1.1rem; padding: 0 15px; }
+            .proposal-text { font-size: 2.5rem; }
+            .button-container { flex-direction: column; align-items: center; }
+            .proposal-btn { min-width: 250px; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tiny top banner -->
+    <div class="top-banner">For My Axam</div>
+
+    <!-- Background elements -->
+    <div class="night-sky" id="nightSky"></div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-dot active" data-section="0"></div>
+        <div class="scroll-dot" data-section="1"></div>
+        <div class="scroll-dot" data-section="2"></div>
+        <div class="scroll-dot" data-section="3"></div>
+        <div class="scroll-dot" data-section="4"></div>
+    </div>
+
+    <!-- Opening Section -->
+    <section id="opening" class="opening-section">
+        <h1 class="main-title">Even through screens… you reached my heart.</h1>
+        <p>159 days of choosing each other… and I'm still choosing you.</p>
+        <button class="continue-btn" id="continueBtn">
+            <span>Scroll to continue</span>
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" style="display: none;">
+        <h2 class="section-heading">Usss</h2>
+        <div class="chat-bubble">
+            <p>We started with simple messages.</p>
+            <p>Somehow those messages became the best part of my day.</p>
+            <p>Telling each other everything, how our day went, the tiniest details, what made us laugh, what made us tired…</p>
+            <p>it slowly turned into something I couldn't imagine my life without.</p>
+            <p>Talking to you late at night, sharing thoughts we don't tell many people…</p>
+            <p>that's when I realized, you aren't just someone online to me.</p>
+            <p class="highlight">You're my person, <span class="axam-name">Axam</span>.</p>
+            <span class="typing-cursor"></span>
+        </div>
+    </section>
+
+    <!-- Promises Section -->
+    <section id="promises" style="display: none;">
+        <h2 class="section-heading">Promises I'm Already Making in My Heart</h2>
+        <p>I promise to keep choosing you.</p>
+        <p>On easy days. On quiet days. On days when distance feels heavy.</p>
+        <p>I promise to listen, to laugh with you, to grow with you,</p>
+        <p>and to protect what we're building, slowly, honestly, beautifully.</p>
+        <p>I promise to keep dreaming about us,</p>
+        <p>even before the world sees us standing side by side.</p>
+        
+        <div class="promises-list">
+            <div class="star-item">
+                <i class="fas fa-star star-icon"></i>
+                <span>choosing you every single day</span>
+            </div>
+            <div class="star-item">
+                <i class="fas fa-star star-icon"></i>
+                <span>believing in us</span>
+            </div>
+            <div class="star-item">
+                <i class="fas fa-star star-icon"></i>
+                <span>being patient with distance</span>
+            </div>
+            <div class="star-item">
+                <i class="fas fa-star star-icon"></i>
+                <span>building something real</span>
+            </div>
+            <div class="star-item">
+                <i class="fas fa-star star-icon"></i>
+                <span>keeping my heart open, to you</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meeting Section -->
+    <section id="meeting" style="display: none;">
+        <h2 class="section-heading">When We Finally Meet…</h2>
+        <div class="chat-bubble">
+            <p>It's funny how I can feel so close to you when you're thousands of miles away, <span class="axam-name">Axam</span>.</p>
+            <p>After all these days of telling each other everything, our mornings, our tiny moments, our dreams about meeting, I just want the reality of us.</p>
+            <p>I want to reach out my hand and not hit a glass screen, but feel yours.</p>
+            <p>I want to stand in front of you, take a deep breath, and think…</p>
+            <p class="highlight">"Finally. I'm home."</p>
+        </div>
+    </section>
+
+    <!-- Final Proposal Section -->
+    <section id="proposal" class="final-section" style="display: none;">
+        <h2 class="section-heading">Until I can say this in person…</h2>
+        <div class="proposal-text">will you keep being mine? 🌙❤️</div>
+        
+        <div class="button-container">
+            <button class="proposal-btn always-btn" id="alwaysBtn">
+                <i class="fas fa-heart"></i>
+                <span>Always</span>
+            </button>
+            <button class="proposal-btn forever-btn" id="foreverBtn">
+                <i class="fas fa-moon"></i>
+                <span>Forever</span>
+            </button>
+        </div>
+        
+        <p class="tiny-text" style="margin-top: 50px;">Still you. Still us. Every universe.</p>
+    </section>
+
+    <!-- Audio for background music -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // DOM elements
+        const sections = document.querySelectorAll('section');
+        const scrollDots = document.querySelectorAll('.scroll-dot');
+        const continueBtn = document.getElementById('continueBtn');
+        const alwaysBtn = document.getElementById('alwaysBtn');
+        const foreverBtn = document.getElementById('foreverBtn');
+        const nightSky = document.getElementById('nightSky');
+        const bgMusic = document.getElementById('bgMusic');
+        const axamNames = document.querySelectorAll('.axam-name');
+
+        // Current section index
+        let currentSection = 0;
+        const totalSections = sections.length;
+
+        // Create night sky with stars, moon and clouds
+        function createNightSky() {
+            // Create moon
+            const moon = document.createElement('div');
+            moon.className = 'moon';
+            moon.style.width = '120px';
+            moon.style.height = '120px';
+            moon.style.top = '10%';
+            moon.style.right = '15%';
+            nightSky.appendChild(moon);
+
+            // Create stars
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star twinkle';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.opacity = Math.random() * 0.7 + 0.3;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                // Make some stars clickable (easter egg)
+                if (i % 15 === 0) {
+                    star.style.cursor = 'pointer';
+                    star.addEventListener('click', () => {
+                        alert('159 days… and counting.');
+                    });
+                }
+                
+                nightSky.appendChild(star);
+            }
+
+            // Create clouds
+            for (let i = 0; i < 8; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.width = Math.random() * 300 + 100 + 'px';
+                cloud.style.height = Math.random() * 100 + 50 + 'px';
+                cloud.style.left = Math.random() * 100 + '%';
+                cloud.style.top = Math.random() * 100 + '%';
+                cloud.style.opacity = Math.random() * 0.1 + 0.05;
+                nightSky.appendChild(cloud);
+            }
+
+            // Create a shooting star occasionally
+            setInterval(createShootingStar, 10000);
+        }
+
+        // Create a shooting star
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.position = 'fixed';
+            shootingStar.style.width = '2px';
+            shootingStar.style.height = '2px';
+            shootingStar.style.backgroundColor = 'white';
+            shootingStar.style.borderRadius = '50%';
+            shootingStar.style.boxShadow = '0 0 10px white';
+            shootingStar.style.top = Math.random() * 30 + 10 + '%';
+            shootingStar.style.right = '100%';
+            shootingStar.style.zIndex = '1000';
+            
+            document.body.appendChild(shootingStar);
+            
+            // Animate shooting star
+            const animation = shootingStar.animate([
+                { right: '100%', top: shootingStar.style.top, opacity: 0 },
+                { right: '100%', top: shootingStar.style.top, opacity: 1 },
+                { right: '0%', top: `calc(${shootingStar.style.top} + ${Math.random() * 10 - 5}%)`, opacity: 1 },
+                { right: '0%', top: `calc(${shootingStar.style.top} + ${Math.random() * 10 - 5}%)`, opacity: 0 }
+            ], {
+                duration: 1500,
+                easing: 'cubic-bezier(0.1, 0.7, 0.1, 1)'
+            });
+            
+            animation.onfinish = () => {
+                shootingStar.remove();
+            };
+        }
+
+        // Create sparkle trail effect
+        const sparkles = [];
+        document.addEventListener('mousemove', (e) => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = e.pageX + 'px';
+            sparkle.style.top = e.pageY + 'px';
+            
+            document.body.appendChild(sparkle);
+            sparkles.push(sparkle);
+            
+            // Animate sparkle
+            const animation = sparkle.animate([
+                { opacity: 0.8, transform: 'scale(1)' },
+                { opacity: 0, transform: 'scale(0)' }
+            ], {
+                duration: 600,
+                easing: 'ease-out'
+            });
+            
+            animation.onfinish = () => {
+                sparkle.remove();
+                const index = sparkles.indexOf(sparkle);
+                if (index > -1) sparkles.splice(index, 1);
+            };
+        });
+
+        // Show section by index
+        function showSection(index) {
+            // Hide all sections
+            sections.forEach(section => {
+              
