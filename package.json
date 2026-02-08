@@ -1,0 +1,20 @@
+{
+  "name": "proposal-for-axam",
+  "version": "1.0.0",
+  "description": "Different Screens, Same Heart — Proposal Day Website for Axam",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "serve public",
+    "build": "echo 'Static site - no build required'",
+    "dev": "serve public"
+  },
+  "keywords": ["proposal", "love", "romantic", "axam", "website"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
